@@ -82,6 +82,14 @@ function addBudgetInput() {
     hideInfo(addAmountCardInfo);
   }
 }
+function getTotalExpenses() {
+  const allTrans = localStorage.getAllTrans();
+  let total = 0;
+  for (let i = 0; i < allTrans.length; i++) {
+    total += allTrans[i].amount;
+  }
+  return total;
+}
 
 const showBudgetInput = () => {
   addExpBtnEle.classList.remove("selected-add-exp");
@@ -219,7 +227,7 @@ function addTransItem() {
 
   // Get current total expenses and budget remaining
   const totalExpData = getTotalExpenses(); // Assuming you have a function to calculate total expenses
-  const totalBudget = getTotalBudget(); // Assuming you have a function to get the current total budget
+  const totalBudget = addBudgetInput(); // Assuming you have a function to get the current total budget
   const remainingBudget = totalBudget - totalExpData;
 
   if (amount && checkedTagValue && Number(amount) > 0) {
