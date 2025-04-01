@@ -74,21 +74,11 @@ function hideInfo(ele) {
 function addBudgetInput() {
   if (transAmountEle.value == "") {
     showInfo(addAmountCardInfo, "Please enter budget amount.");
-  } else if (Number(amount) <= 0) {
-    showInfo(addAmountCardInfo, "Please enter a valid budget amount (greater than 0).");
   } else {
     localStorage.setTotalBudget(Number(transAmountEle.value));
     totalCalculate();
     hideInfo(addAmountCardInfo);
   }
-}
-function getTotalExpenses() {
-  const allTrans = localStorage.getAllTrans();
-  let total = 0;
-  for (let i = 0; i < allTrans.length; i++) {
-    total += allTrans[i].amount;
-  }
-  return total;
 }
 
 const showBudgetInput = () => {
@@ -126,7 +116,7 @@ function createTranHTML(obj = {}) {
   </div>`;
 }
 
-localStorage.saveTag("Shubham👨‍💻");
+localStorage.saveTag("Manik👨‍💻");
 
 function createTagHTML(str) {
   return `
@@ -225,25 +215,13 @@ function addTransItem() {
   const amount = amountEle.value;
   const checkedTagValue = checkedTag ? checkedTag.value : undefined;
 
-  // Get current total expenses and budget remaining
-  const totalExpData = getTotalExpenses(); // Assuming you have a function to calculate total expenses
-  const totalBudget = addBudgetInput(); // Assuming you have a function to get the current total budget
-  const remainingBudget = totalBudget - totalExpData;
-
   if (amount && checkedTagValue && Number(amount) > 0) {
-    // Check if remaining budget will go negative after this expense
-    if (remainingBudget - Number(amount) < 0) {
-      alert("Your budget is too low. Please increase your budget before adding more expenses.");
-      return; // Prevent the expense from being added
-    }
-
     let transObj = {
       id: Math.floor(Math.random() * 10000000),
       amount: Number(amount),
       tag: checkedTagValue,
       time: new Date().toISOString(),
     };
-    
     localStorage.saveTrans(transObj);
     renderTransHistory(localStorage.getAllTrans());
     addTranBtnEvent();
@@ -257,13 +235,11 @@ function addTransItem() {
     }
   }
 
-  // Reset form fields
   amountEle.value = "";
   checkedTag.checked = false;
   const checkedLabel = document.querySelector(`[for="${checkedTag.id}"]`);
   checkedLabel.style.backgroundColor = colors.lightBlue;
 }
-
 
 function clearInputForm() {
   transAmountEle.value = "";
