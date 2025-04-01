@@ -71,7 +71,8 @@ function hideInfo(ele) {
   ele.parentElement.style.display = "none";
 }
 function addBudgetInput() {
-  if (transAmountEle.value == "" || transAmountEle.value<=0) {
+  const budgetValue = Number(transAmountEle.value);
+  if (transAmountEle.value == "" || budgetValue<=0) {
     showInfo(addAmountCardInfo, "Please enter proper budget amount.");
   } else {
     localStorage.setTotalBudget(Number(transAmountEle.value));
