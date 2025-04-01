@@ -72,8 +72,8 @@ function hideInfo(ele) {
 }
 
 function addBudgetInput() {
-  if (transAmountEle.value == "") {
-    showInfo(addAmountCardInfo, "Please enter budget amount.");
+  if (transAmountEle.value == "" && transAmountEle.value>0) {
+    showInfo(addAmountCardInfo, "Please enter proper budget amount.");
   } else {
     localStorage.setTotalBudget(Number(transAmountEle.value));
     totalCalculate();
