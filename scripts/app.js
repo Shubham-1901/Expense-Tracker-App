@@ -212,24 +212,32 @@ function addTransItem() {
   const checkedTag = findChekedTag(
     Array.from(document.querySelectorAll('[name="expFor"]'))
   );
-  const amount = amountEle.value;
+  const amount = Number(amountEle.value);
   const checkedTagValue = checkedTag ? checkedTag.value : undefined;
 
-  if (amount && checkedTagValue && Number(amount) > 0) {
+  const currentBudgetLeft = Number(localStorage.getTotalBudget()) - totalExpData;
+
+  if (amount && checkedTagValue && amount > 0) {
+    if (currentBudgetLeft - amount < 0) {
+      alert("Your budget is exhausted! You cannot add more expenses.");
+      return; // Don't add the expense if the budget is exceeded
+    }
+
     let transObj = {
       id: Math.floor(Math.random() * 10000000),
-      amount: Number(amount),
+      amount: amount,
       tag: checkedTagValue,
       time: new Date().toISOString(),
     };
+
     localStorage.saveTrans(transObj);
     renderTransHistory(localStorage.getAllTrans());
     addTranBtnEvent();
     totalCalculate();
     hideInfo(addAmountCardInfo);
   } else {
-    if (amount == "" || Number(amount) <= 0) {
-      showInfo(addAmountCardInfo, "Please enter proper amount.");
+    if (amount == "" || amount <= 0) {
+      showInfo(addAmountCardInfo, "Please enter a proper amount.");
     } else if (checkedTagValue == undefined) {
       showInfo(addAmountCardInfo, "Please select a tag.");
     }
